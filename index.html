@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amada Niña</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital@0;1&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink-bright: #ff80ab;
+            --pink-dark: #ad1457;
+            --glass: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow: hidden;
+            background: #1a0a0d;
+        }
+
+        /* FONDO RESPONSIVO */
+        .bg-img {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://cdn.discordapp.com/attachments/1454629584317448442/1496989634650050560/image.png?ex=69ebe3bd&is=69ea923d&hm=b9cd8d152c255e247c5f44a0396e69c2713fb006c98c596155cb19940e6fc51a&'); /* REEMPLAZA CON TU LINK DE LA IMAGEN */
+            background-size: cover;
+            background-position: center center;
+            z-index: -1;
+        }
+
+        /* EFECTO LLUVIA */
+        .falling-element {
+            position: fixed;
+            top: -50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: fall linear forwards;
+            opacity: 0.7;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
+        }
+
+        .main-wrapper {
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 8vw, 3rem);
+            margin-bottom: 0;
+            text-shadow: 0 0 15px var(--pink-bright);
+        }
+
+        .subtitle {
+            letter-spacing: 3px;
+            font-size: 0.7rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* REPRODUCTOR MP3 */
+        .music-player {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.2rem;
+        }
+
+        .btn-play {
+            background: white;
+            color: var(--pink-dark);
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* TARJETA */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 25px;
+            color: #333;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .message {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin: 20px 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-next {
+            background: var(--pink-bright);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            align-self: center;
+        }
+
+        .btn-next:hover { transform: scale(1.05); background: var(--pink-dark); }
+
+        @media (min-aspect-ratio: 1/1) {
+            .bg-img { background-position: center 30%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-img"></div>
+
+    <div class="main-wrapper">
+        <h1>Para Mi amada niña</h1>
+        <p class="subtitle">✨ FELIZ DÍA MI AMADA LECTORA ✨</p>
+
+        <div class="music-player">
+            <audio id="audio-element">
+                <source src="https://cdn.discordapp.com/attachments/1454629584317448442/1496993368188911788/Tipling_Rock_-_Staring_Visualizer.mp3?ex=69ebe737&is=69ea95b7&hm=6dcdc92b02316676733095fd38be92beceedaaf3e70ccc74bc3a4cf54de87cac&" type="audio/mpeg">
+            </audio>
+
+            <div class="track-info">
+                <span style="font-size: 1.5rem;">🎵</span>
+                <div>
+                    <div style="font-weight: bold; font-size: 0.85rem;">Canción para ti</div>
+                    <div id="time-display" style="font-size: 0.7rem; opacity: 0.8;">0:00 / 0:00</div>
+                </div>
+            </div>
+            <div class="progress-container" id="progress-container">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="controls">
+                <span style="cursor:pointer">⏮</span>
+                <div class="btn-play" id="playPauseBtn">▶</div>
+                <span style="cursor:pointer">⏭</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="card-counter" style="color: var(--pink-bright); font-size: 0.75rem; font-weight: bold; text-align: center;">1 / 6</div>
+            <div style="font-size: 2rem; text-align: center;">❤️</div>
+            <p class="message" id="message-text">
+                "A veces soy muy olvidadizo, tanto que no logro recordar cosas que son importantes para ti ✨"
+            </p>
+            <button class="btn-next" id="nextBtn">Siguiente →</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. LLUVIA DE ELEMENTOS ---
+        function createFallingElement() {
+            const elements = ['❤️', '💖', '📖', '📚', '🌸', '✨'];
+            const el = document.createElement('div');
+            el.classList.add('falling-element');
+            el.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            const duration = (Math.random() * 3 + 4);
+            el.style.animationDuration = duration + 's';
+            document.body.appendChild(el);
+            setTimeout(() => { el.remove(); }, duration * 1000);
+        }
+        setInterval(createFallingElement, 400);
+
+        // --- 2. REPRODUCTOR MP3 ---
+        const audio = document.getElementById('audio-element');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressFill = document.getElementById('progress-fill');
+        const progressContainer = document.getElementById('progress-container');
+        const timeDisplay = document.getElementById('time-display');
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.innerText = '⏸';
+            } else {
+                audio.pause();
+                playPauseBtn.innerText = '▶';
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progressFill.style.width = percent + '%';
+            timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const width = progressContainer.clientWidth;
+            const clickX = e.offsetX;
+            audio.currentTime = (clickX / width) * audio.duration;
+        });
+
+        function formatTime(time) {
+            let min = Math.floor(time / 60);
+            let sec = Math.floor(time % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        // --- 3. NUEVOS MENSAJES ---
+        const mensajes = [
+            "A veces soy muy olvidadizo, tanto que no logro recordar cosas que son importantes para ti ✨",
+            "Soy un tonto enamorado que siempre encontrará la manera de compensar sus propios errores",
+            "Sé que quizás no sea mucho y aún te debo un ramo enorme de flores 🌹",
+            "Pero no olvides que este chico tonto... solo te ama a ti",
+            "Sin importar nunca lo que ocurra o lo que suceda, siempre seré solo tu loco enamorado",
+            "Feliz día mi amor... prometo que la siguiente vez... será aún más especial ❤️💖"
+        ];
+
+        let i = 0;
+        const textElem = document.getElementById('message-text');
+        const countElem = document.getElementById('card-counter');
+        const nextBtn = document.getElementById('nextBtn');
+
+        nextBtn.addEventListener('click', () => {
+            i++;
+            if (i < mensajes.length) {
+                textElem.style.opacity = 0;
+                setTimeout(() => {
+                    textElem.innerText = `"${mensajes[i]}"`;
+                    countElem.innerText = `${i + 1} / ${mensajes.length}`;
+                    textElem.style.opacity = 1;
+                    if (i === mensajes.length - 1) nextBtn.innerText = "Te amo ❤️";
+                }, 300);
+            } else {
+                alert("¡Gracias por ser mi historia favorita! 📖✨");
+                i = -1; 
+                nextBtn.innerText = "Siguiente →";
+                nextBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
